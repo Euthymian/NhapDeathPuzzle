@@ -1,0 +1,202 @@
+
+nhan vat nam tach.png
+size: 2033,552
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+banana
+  rotate: true
+  xy: 1416, 92
+  size: 49, 33
+  orig: 49, 33
+  offset: 0, 0
+  index: -1
+bap chan 1
+  rotate: true
+  xy: 1260, 143
+  size: 92, 190
+  orig: 92, 191
+  offset: 0, 1
+  index: -1
+bap chan 2
+  rotate: true
+  xy: 1826, 287
+  size: 85, 190
+  orig: 86, 190
+  offset: 0, 0
+  index: -1
+bap tay 1
+  rotate: false
+  xy: 1727, 8
+  size: 78, 153
+  orig: 78, 153
+  offset: 0, 0
+  index: -1
+bap tay 2
+  rotate: false
+  xy: 1807, 8
+  size: 78, 153
+  orig: 78, 153
+  offset: 0, 0
+  index: -1
+buon ngu
+  rotate: true
+  xy: 1452, 6
+  size: 229, 115
+  orig: 229, 115
+  offset: 0, 0
+  index: -1
+canh tay 1
+  rotate: true
+  xy: 1826, 463
+  size: 87, 205
+  orig: 87, 205
+  offset: 0, 0
+  index: -1
+canh tay 2
+  rotate: true
+  xy: 1826, 374
+  size: 87, 205
+  orig: 87, 205
+  offset: 0, 0
+  index: -1
+chan 1
+  rotate: true
+  xy: 1819, 200
+  size: 85, 185
+  orig: 86, 185
+  offset: 1, 0
+  index: -1
+chan 2
+  rotate: false
+  xy: 1887, 13
+  size: 83, 185
+  orig: 83, 185
+  offset: 0, 0
+  index: -1
+co
+  rotate: true
+  xy: 902, 2
+  size: 137, 92
+  orig: 137, 92
+  offset: 0, 0
+  index: -1
+giay 1
+  rotate: false
+  xy: 996, 5
+  size: 152, 134
+  orig: 152, 134
+  offset: 0, 0
+  index: -1
+giay 2
+  rotate: false
+  xy: 1150, 5
+  size: 147, 134
+  orig: 147, 134
+  offset: 0, 0
+  index: -1
+long trong mat 1
+  rotate: false
+  xy: 1299, 26
+  size: 115, 115
+  orig: 115, 115
+  offset: 0, 0
+  index: -1
+long trong mat 2
+  rotate: false
+  xy: 796, 8
+  size: 104, 105
+  orig: 104, 105
+  offset: 0, 0
+  index: -1
+mat
+  rotate: false
+  xy: 868, 141
+  size: 390, 409
+  orig: 390, 409
+  offset: 0, 0
+  index: -1
+mat loi
+  rotate: true
+  xy: 1709, 322
+  size: 228, 115
+  orig: 228, 115
+  offset: 0, 0
+  index: -1
+mat tron
+  rotate: true
+  xy: 1584, 311
+  size: 239, 123
+  orig: 239, 123
+  offset: 0, 0
+  index: -1
+mom
+  rotate: false
+  xy: 2, 6
+  size: 54, 17
+  orig: 54, 17
+  offset: 0, 0
+  index: -1
+mom hoang
+  rotate: true
+  xy: 1727, 163
+  size: 157, 90
+  orig: 157, 90
+  offset: 0, 0
+  index: -1
+mui
+  rotate: true
+  xy: 1519, 266
+  size: 284, 63
+  orig: 284, 63
+  offset: 0, 0
+  index: -1
+nham mat
+  rotate: false
+  xy: 568, 2
+  size: 226, 111
+  orig: 227, 111
+  offset: 0, 0
+  index: -1
+than
+  rotate: false
+  xy: 1260, 237
+  size: 257, 313
+  orig: 257, 313
+  offset: 0, 0
+  index: -1
+than duoi
+  rotate: true
+  xy: 1569, 15
+  size: 249, 156
+  orig: 249, 157
+  offset: 0, 1
+  index: -1
+toc
+  rotate: true
+  xy: 568, 115
+  size: 435, 298
+  orig: 435, 298
+  offset: 0, 0
+  index: -1
+trong 1
+  rotate: false
+  xy: 1416, 61
+  size: 29, 29
+  orig: 29, 29
+  offset: 0, 0
+  index: -1
+trong 2
+  rotate: false
+  xy: 1416, 30
+  size: 29, 29
+  orig: 29, 29
+  offset: 0, 0
+  index: -1
+tui ni long
+  rotate: true
+  xy: 2, 25
+  size: 525, 564
+  orig: 526, 566
+  offset: 0, 1
+  index: -1

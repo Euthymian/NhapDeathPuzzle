@@ -1,0 +1,223 @@
+
+nv nam lv4.png
+size: 2017,1138
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Ellipse 1
+  rotate: false
+  xy: 2, 2
+  size: 378, 121
+  orig: 378, 121
+  offset: 0, 0
+  index: -1
+blood
+  rotate: true
+  xy: 1930, 877
+  size: 259, 84
+  orig: 260, 84
+  offset: 0, 0
+  index: -1
+blood2
+  rotate: true
+  xy: 1659, 511
+  size: 359, 356
+  orig: 359, 356
+  offset: 0, 0
+  index: -1
+canh quat
+  rotate: false
+  xy: 2, 125
+  size: 820, 1011
+  orig: 820, 1011
+  offset: 0, 0
+  index: -1
+chan phai
+  rotate: false
+  xy: 1799, 110
+  size: 82, 184
+  orig: 82, 184
+  offset: 0, 0
+  index: -1
+chan phai 2
+  rotate: true
+  xy: 1187, 107
+  size: 80, 179
+  orig: 80, 179
+  offset: 0, 0
+  index: -1
+chan phai 3
+  rotate: true
+  xy: 1527, 297
+  size: 142, 130
+  orig: 142, 130
+  offset: 0, 0
+  index: -1
+chan trai
+  rotate: true
+  xy: 1799, 20
+  size: 88, 183
+  orig: 88, 183
+  offset: 0, 0
+  index: -1
+chan trai 2
+  rotate: false
+  xy: 1441, 160
+  size: 83, 179
+  orig: 83, 179
+  offset: 0, 0
+  index: -1
+chan trai 3
+  rotate: true
+  xy: 1527, 441
+  size: 147, 130
+  orig: 147, 130
+  offset: 0, 0
+  index: -1
+cole
+  rotate: false
+  xy: 1659, 409
+  size: 221, 100
+  orig: 221, 100
+  offset: 0, 0
+  index: -1
+cong tac do
+  rotate: true
+  xy: 1629, 151
+  size: 143, 168
+  orig: 143, 168
+  offset: 0, 0
+  index: -1
+cong tac xanh
+  rotate: true
+  xy: 1629, 6
+  size: 143, 168
+  orig: 143, 168
+  offset: 0, 0
+  index: -1
+mat
+  rotate: false
+  xy: 824, 476
+  size: 377, 394
+  orig: 377, 394
+  offset: 0, 0
+  index: -1
+mat 1
+  rotate: false
+  xy: 614, 7
+  size: 228, 116
+  orig: 229, 116
+  offset: 1, 0
+  index: -1
+mat 2
+  rotate: false
+  xy: 382, 7
+  size: 230, 116
+  orig: 230, 116
+  offset: 0, 0
+  index: -1
+mat 3
+  rotate: false
+  xy: 1659, 296
+  size: 220, 111
+  orig: 220, 111
+  offset: 0, 0
+  index: -1
+mat 4
+  rotate: false
+  xy: 844, 30
+  size: 229, 116
+  orig: 230, 116
+  offset: 1, 0
+  index: -1
+mom
+  rotate: true
+  xy: 1975, 458
+  size: 51, 17
+  orig: 53, 17
+  offset: 1, 0
+  index: -1
+mom 1
+  rotate: true
+  xy: 1882, 351
+  size: 158, 91
+  orig: 158, 91
+  offset: 0, 0
+  index: -1
+mom 2
+  rotate: true
+  xy: 1526, 130
+  size: 165, 101
+  orig: 165, 101
+  offset: 0, 0
+  index: -1
+mui
+  rotate: false
+  xy: 824, 148
+  size: 276, 61
+  orig: 276, 62
+  offset: 0, 0
+  index: -1
+quat mau
+  rotate: true
+  xy: 1203, 590
+  size: 280, 454
+  orig: 321, 462
+  offset: 41, 8
+  index: -1
+tay phai
+  rotate: true
+  xy: 1187, 29
+  size: 76, 148
+  orig: 76, 148
+  offset: 0, 0
+  index: -1
+tay phai 2
+  rotate: false
+  xy: 1883, 150
+  size: 83, 199
+  orig: 83, 199
+  offset: 0, 0
+  index: -1
+tay trai
+  rotate: true
+  xy: 1368, 82
+  size: 76, 147
+  orig: 76, 147
+  offset: 0, 0
+  index: -1
+tay trai 2
+  rotate: false
+  xy: 1102, 11
+  size: 83, 198
+  orig: 84, 199
+  offset: 1, 0
+  index: -1
+than
+  rotate: true
+  xy: 1203, 341
+  size: 247, 322
+  orig: 247, 322
+  offset: 0, 0
+  index: -1
+than duoi
+  rotate: false
+  xy: 1200, 189
+  size: 239, 150
+  orig: 239, 150
+  offset: 0, 0
+  index: -1
+toc
+  rotate: false
+  xy: 824, 211
+  size: 374, 263
+  orig: 374, 263
+  offset: 0, 0
+  index: -1
+tru quat
+  rotate: true
+  xy: 824, 872
+  size: 264, 1104
+  orig: 264, 1104
+  offset: 0, 0
+  index: -1
