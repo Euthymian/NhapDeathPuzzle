@@ -77,7 +77,7 @@ namespace Spine.Unity.Editor {
 			#endif
 		}
 
-		#if REGION_BAKING_MESH
+#if REGION_BAKING_MESH
 		private List<bool> baked;
 		private List<GameObject> bakedObjects;
 
@@ -99,9 +99,9 @@ namespace Spine.Unity.Editor {
 				}
 			}
 		}
-		#endif
+#endif
 
-		override public void OnInspectorGUI () {
+        override public void OnInspectorGUI () {
 			if (serializedObject.isEditingMultipleObjects) {
 				DrawDefaultInspector();
 				return;
@@ -312,7 +312,8 @@ namespace Spine.Unity.Editor {
 				atlasAsset.Clear();
 		}
 
-		static public void UpdateSpriteSlices (Texture texture, Atlas atlas) {
+        [Obsolete]
+        static public void UpdateSpriteSlices (Texture texture, Atlas atlas) {
 			string texturePath = AssetDatabase.GetAssetPath(texture.GetInstanceID());
 			var t = (TextureImporter)TextureImporter.GetAtPath(texturePath);
 			t.spriteImportMode = SpriteImportMode.Multiple;

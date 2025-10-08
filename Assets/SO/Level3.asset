@@ -21,19 +21,25 @@ MonoBehaviour:
       nextVisualId: mainvisual
       nextAnimation: action3
       isLastAnim: 0
-      disableOnComplete: 1
+      disableOnComplete: 0
+      moves: []
     - triggerVisualId: mainvisual
       triggerAnimation: action3
       nextVisualId: mainvisual
       nextAnimation: action2
       isLastAnim: 0
       disableOnComplete: 0
+      moves:
+      - targetVisualId: mainvisual
+        anchorId: anchor3
+        duration: 1.333
     - triggerVisualId: mainvisual
       triggerAnimation: action2
       nextVisualId: 
       nextAnimation: 
       isLastAnim: 1
       disableOnComplete: 0
+      moves: []
   - chainId: bongbay
     steps:
     - triggerVisualId: mainvisual
@@ -42,3 +48,10 @@ MonoBehaviour:
       nextAnimation: 
       isLastAnim: 1
       disableOnComplete: 0
+      moves:
+      - targetVisualId: mainvisual
+        anchorId: anchor1
+        duration: 2
+      - targetVisualId: mainvisual
+        anchorId: anchor2
+        duration: 0.5

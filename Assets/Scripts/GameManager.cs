@@ -7,6 +7,10 @@ public class GameManager : MonoBehaviour
 {
     private LevelManager levelManager;
     [SerializeField] private Canvas canvas;
+
+    [SerializeField] private Button settingButton;
+    [SerializeField] private GameObject settingPanel;
+
     [SerializeField] private GameObject winPanel;
     [SerializeField] private Button nextButton;
 
@@ -14,9 +18,9 @@ public class GameManager : MonoBehaviour
 
     [Header("UI Level Capture (entire scene is UI)")]
     [Tooltip("Canvas that contains the entire level UI (currently Screen Space - Overlay).")]
-    [SerializeField] private Canvas levelCanvas;
+    private Canvas levelCanvas;
     [Tooltip("Top RectTransform under the canvas that encloses the whole level (big square root).")]
-    [SerializeField] private RectTransform sceneRoot;
+    private RectTransform sceneRoot;
     [Tooltip("Square output size.")]
     [SerializeField] private int rtSize = 2048;
     [Tooltip("Extra margin around the bounds (0.05 = 5%).")]
@@ -25,7 +29,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float pixelsPerWorldUnit = 100f;
 
 
-    private int currentLevel = 1;
+    [SerializeField] private int currentLevel;
 
     private void Awake()
     {
@@ -38,10 +42,22 @@ public class GameManager : MonoBehaviour
             Destroy(levelManager.gameObject);
             Init(currentLevel);
         });
+
+        settingButton.onClick.AddListener(() =>
+        {
+            settingPanel.SetActive(true);
+        });
     }
 
     private void Init(int level)
     {
+        if (finishedImage != null && finishedImage.texture is RenderTexture rt)
+        {
+            finishedImage.texture = null;
+            if (rt.IsCreated()) rt.Release();
+            Destroy(rt);
+        }
+
         winPanel.SetActive(false);
         nextButton.gameObject.SetActive(false);
 
@@ -58,14 +74,32 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        levelManager.OnLevelComplete -= HandleLevelComplete;
+        // 1) Unsubscribe from LevelManager event safely
+        if (levelManager != null)
+            levelManager.OnLevelComplete -= HandleLevelComplete;
+
+        // 2) Remove button listeners to avoid dangling delegates
+        if (nextButton != null)
+            nextButton.onClick.RemoveAllListeners();
+        if (settingButton != null)
+            settingButton.onClick.RemoveAllListeners();
+
+        // 3) Release the captured RenderTexture if we created one
+        if (finishedImage != null && finishedImage.texture is RenderTexture rt)
+        {
+            finishedImage.texture = null;
+            if (rt.IsCreated()) rt.Release();
+            Destroy(rt);
+        }
+
+        // 4) Stop any pending coroutines started by this Mono
+        StopAllCoroutines();
     }
+
 
     private void HandleLevelComplete(object _, System.EventArgs __)
     {
         StartCoroutine(CaptureFullUI_Co());
-        //winPanel.SetActive(true);
-        //nextButton.gameObject.SetActive(true);
 
     }
 
