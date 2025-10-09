@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/BlockMania.unity
     guid: 753188dc2e0d0434fb42e7c11a537d53
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 021ca9f7143e568458a6d0fd78415a18, type: 2}
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: b66ce59ef595eed4cb310f47a3f3f86c, type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 7e93301e8f7c12043a10e8e9266e7fdc, type: 2}

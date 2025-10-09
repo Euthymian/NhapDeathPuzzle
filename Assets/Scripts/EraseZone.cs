@@ -1,218 +1,226 @@
-using System.Collections.Generic;
+using System.Collections.Concurrent;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-/// Put this on the SAME GameObject as the RawImage you want to erase (Screen Space – Overlay).
-/// When enough of the eligible pixels are erased, it triggers the first animation on targetVisual.
-/// LevelManager continues the chain via Visual events.
-[RequireComponent(typeof(RectTransform))]
-[RequireComponent(typeof(RawImage))]
+[RequireComponent(typeof(RectTransform)), RequireComponent(typeof(RawImage))]
 public class EraseZone : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     [Header("Trigger (first animation)")]
     [SerializeField] private Visual targetVisual;
     [SerializeField] private string animationToTrigger = "EraseStart";
-    [Range(0.05f, 1f)] public float triggerPercent = 0.9f;   // match your Dishes 90% default
+    [Range(0.05f, 1f)] public float triggerPercent = 0.9f;
 
     [Header("Brush (texture pixels)")]
-    [Min(2)] public int brushRadius = 32;
+    [Min(2)] public int brushRadius = 80;
 
     [Header("Mask build (eligible pixels)")]
     [Range(0f, 1f)] public float alphaThreshold = 0.5f;
 
-    // Internals (same pattern as Dishes)
-    private RawImage targetImage;
-    private RectTransform rect;
-    private Texture2D paintTex;
-    private Dictionary<Vector2Int, bool> paintCache = new(); // eligible pixels & painted flag
-    private int texWidth, texHeight, totalEligible;
-    private Color32[] pixelBuffer;
-    private Color32[] originalPixels;
+    RawImage raw;
+    RectTransform rect;
+    Texture2D paintTex;
+    Color32[] pixelBuffer, originalPixels;
+    int texW, texH;
 
-    private bool drawing;
-    private Vector2 lastLocal;  // last pointer position in local rect space
-    private int erasedCount;    // how many eligible pixels have been painted (first time)
-    private Camera uiCam = null; // Overlay => null
+    // Masks as arrays (much faster than Dictionary)
+    int[] eligible;      // 1 if this pixel can be erased (alpha >= threshold)
+    int[] paintedFlags;  // 0->1 atomically when first erased
+    int totalEligible;   // denominator
+    int erasedCount;     // incremented atomically by worker
+
+    // Worker thread infra
+    struct BrushOp { public int x, y, r; }
+    readonly ConcurrentQueue<BrushOp> queue = new ConcurrentQueue<BrushOp>();
+    Thread worker;
+    volatile bool run;
+    volatile bool bufferDirty;    // set by worker when it changed pixelBuffer
+
+    // Drag state
+    bool dragging;
+    Vector2 lastLocal;
+    Camera uiCam = null; // overlay
 
     void Awake()
     {
         rect = GetComponent<RectTransform>();
-        targetImage = GetComponent<RawImage>();
-        if (!targetImage.raycastTarget) targetImage.raycastTarget = true; // must receive pointer events
+        raw = GetComponent<RawImage>();
+        if (!raw.raycastTarget) raw.raycastTarget = true;
 
-        // Make writable copy of the RawImage texture
-        var src = targetImage.texture as Texture2D;
-        if(src != null)
-        {
-            Debug.Log(src.name);
-        }
+        var src = raw.texture as Texture2D;
         paintTex = DuplicateReadable(src);
-        if (paintTex == null)
-        {
-            Debug.LogError("[EraseZone] RawImage.texture must be a readable Texture2D.");
-            enabled = false;
-            return;
-        }
-        targetImage.texture = paintTex;
+        if (!paintTex) { Debug.LogError("EraseZone: Texture must be readable."); enabled = false; return; }
+        raw.texture = paintTex;
 
-        texWidth = paintTex.width;
-        texHeight = paintTex.height;
-
+        texW = paintTex.width; texH = paintTex.height;
         originalPixels = paintTex.GetPixels32();
         pixelBuffer = (Color32[])originalPixels.Clone();
 
-        // Build eligible mask (alpha >= threshold)
-        BuildPaintCacheFromAlpha(originalPixels, alphaThreshold);
+        // Build masks
+        BuildMasks(originalPixels, alphaThreshold);
 
-        // Ensure texture matches buffer
+        // Initial upload
         paintTex.SetPixels32(pixelBuffer);
         paintTex.Apply(false, false);
 
-        erasedCount = 0;
+        // Start worker thread
+        run = true;
+        worker = new Thread(WorkerLoop) { IsBackground = true, Name = "EraseZoneWorker" };
+        worker.Start();
     }
 
-    // ===== Public reset (call from LevelManager on wrong chain) =====
-    public void ResetZone()
+    void OnDestroy()
     {
-        if (paintTex == null || originalPixels == null) return;
-
-        System.Array.Copy(originalPixels, pixelBuffer, originalPixels.Length);
-        paintTex.SetPixels32(pixelBuffer);
-        paintTex.Apply(false, false);
-
-        // reset flags & progress
-        var keys = new List<Vector2Int>(paintCache.Keys);
-        for (int i = 0; i < keys.Count; i++) paintCache[keys[i]] = false;
-        erasedCount = 0;
+        run = false;
+        if (worker != null && worker.IsAlive) worker.Join();
     }
 
-    // ===== Pointer =====
+    void LateUpdate()
+    {
+        // Upload at most once per frame if worker changed buffer
+        if (bufferDirty)
+        {
+            bufferDirty = false;
+            paintTex.SetPixels32(pixelBuffer);
+            paintTex.Apply(false, false);
+        }
+    }
+
+    // --- Pointer ---
     public void OnPointerDown(PointerEventData e)
     {
-        drawing = RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, e.position, uiCam, out lastLocal);
-        if (drawing)
-        {
-            int add = DrawBrushAtLocal(lastLocal);
-            AfterBrush(add);
-        }
+        dragging = RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, e.position, uiCam, out lastLocal);
+        if (!dragging) return;
+        EnqueueBrushAtLocal(lastLocal);
     }
 
     public void OnDrag(PointerEventData e)
     {
-        if (!drawing) return;
+        if (!dragging) return;
         if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, e.position, uiCam, out var lp)) return;
 
-        // Interpolate to avoid gaps between frames
         float seg = Vector2.Distance(lastLocal, lp);
         int steps = Mathf.Max(1, Mathf.CeilToInt(seg / (brushRadius * 0.5f)));
-        int added = 0;
         for (int i = 1; i <= steps; i++)
-            added += DrawBrushAtLocal(Vector2.Lerp(lastLocal, lp, i / (float)steps));
+            EnqueueBrushAtLocal(Vector2.Lerp(lastLocal, lp, i / (float)steps));
 
         lastLocal = lp;
-        AfterBrush(added);
     }
 
     public void OnPointerUp(PointerEventData e)
     {
-        drawing = false;
-
-        float progress = totalEligible > 0 ? (float)erasedCount / totalEligible : 0f;
+        dragging = false;
+        float progress = totalEligible > 0 ? (float)Volatile.Read(ref erasedCount) / totalEligible : 0f;
         if (progress >= triggerPercent && targetVisual)
-        {
             targetVisual.PlayAnim(animationToTrigger, false);
-        }
     }
 
-    // ===== Core erase (same logic as Dishes) =====
-    // Map local UI point -> texture pixels
-    int DrawBrushAtLocal(Vector2 localPos)
+    // --- Reset (fast, no stall) ---
+    public void ResetZone()
     {
-        Rect rectPx = rect.rect;
+        // Clear worker queue
+        while (queue.TryDequeue(out _)) { }
 
-        // local (rect space) -> normalized (0..1)
-        float normX = (localPos.x - rectPx.x) / rectPx.width;
-        float normY = (localPos.y - rectPx.y) / rectPx.height;
+        // Reset CPU buffer
+        System.Array.Copy(originalPixels, pixelBuffer, pixelBuffer.Length);
 
-        // account for uvRect in RawImage (if changed)
-        var uv = targetImage.uvRect; // default (0,0,1,1)
-        float u = uv.x + normX * uv.width;
-        float v = uv.y + normY * uv.height;
+        // Reset masks/counters
+        System.Array.Clear(paintedFlags, 0, paintedFlags.Length);
+        Interlocked.Exchange(ref erasedCount, 0);
 
-        int texX = Mathf.RoundToInt(u * texWidth);
-        int texY = Mathf.RoundToInt(v * texHeight);
-
-        if (texX < 0 || texX >= texWidth || texY < 0 || texY >= texHeight) return 0;
-
-        return DrawBrush(texX, texY, brushRadius);
+        bufferDirty = true; // trigger one upload in LateUpdate
     }
 
-    int DrawBrush(int centerX, int centerY, int radius)
+    // ================== Worker & helpers ==================
+
+    void WorkerLoop()
     {
-        int added = 0;
-        int sqrR = radius * radius;
-
-        int minY = Mathf.Max(0, centerY - radius);
-        int maxY = Mathf.Min(texHeight - 1, centerY + radius);
-        int minX = Mathf.Max(0, centerX - radius);
-        int maxX = Mathf.Min(texWidth - 1, centerX + radius);
-
-        for (int y = minY; y <= maxY; y++)
-            for (int x = minX; x <= maxX; x++)
+        while (run)
+        {
+            if (!queue.TryDequeue(out var op))
             {
-                int dx = x - centerX;
-                int dy = y - centerY;
-                if (dx * dx + dy * dy > sqrR) continue;
+                Thread.Sleep(0); // yield
+                continue;
+            }
 
-                var key = new Vector2Int(x, y);
-                if (paintCache.TryGetValue(key, out bool alreadyErased))
+            int r2 = op.r * op.r;
+
+            int minY = Mathf.Max(0, op.y - op.r);
+            int maxY = Mathf.Min(texH - 1, op.y + op.r);
+            int minX = Mathf.Max(0, op.x - op.r);
+            int maxX = Mathf.Min(texW - 1, op.x + op.r);
+
+            int newlyErased = 0;
+
+            for (int y = minY; y <= maxY; y++)
+            {
+                int dy = y - op.y;
+                int row = y * texW;
+
+                for (int x = minX; x <= maxX; x++)
                 {
-                    int idx = y * texWidth + x;
+                    int dx = x - op.x;
+                    if (dx * dx + dy * dy > r2) continue;
 
-                    // Erase in buffer
+                    int idx = row + x;
+
+                    if (eligible[idx] == 0) continue; // not part of erasable area
+
+                    // Set alpha to 0 in buffer
                     var c = pixelBuffer[idx];
                     if (c.a != 0) { c.a = 0; pixelBuffer[idx] = c; }
 
-                    // Count first-time erase
-                    if (!alreadyErased)
-                    {
-                        paintCache[key] = true;
-                        added++;
-                    }
+                    // First-time mark: atomically flip 0->1
+                    if (Interlocked.Exchange(ref paintedFlags[idx], 1) == 0)
+                        newlyErased++;
                 }
             }
-        return added;
-    }
 
-    void AfterBrush(int addAmount)
-    {
-        if (addAmount <= 0) return;
-
-        erasedCount += addAmount;
-
-        // Push buffer to texture (you can throttle if needed)
-        paintTex.SetPixels32(pixelBuffer);
-        paintTex.Apply(false, false);
-    }
-
-    void BuildPaintCacheFromAlpha(Color32[] src, float threshold)
-    {
-        paintCache.Clear();
-        totalEligible = 0;
-
-        byte thr = (byte)Mathf.Clamp(Mathf.RoundToInt(threshold * 255f), 0, 255);
-
-        for (int y = 0; y < texHeight; y++)
-            for (int x = 0; x < texWidth; x++)
+            if (newlyErased > 0)
             {
-                int idx = y * texWidth + x;
-                if (src[idx].a >= thr)
-                {
-                    paintCache[new Vector2Int(x, y)] = false; // eligible & not erased yet
-                    totalEligible++;
-                }
+                Interlocked.Add(ref erasedCount, newlyErased);
+                bufferDirty = true; // tell main thread to upload this frame
             }
+        }
+    }
+
+    void EnqueueBrushAtLocal(Vector2 localPos)
+    {
+        // local -> normalized
+        Rect rr = rect.rect;
+        float nx = (localPos.x - rr.x) / rr.width;
+        float ny = (localPos.y - rr.y) / rr.height;
+
+        // uvRect aware
+        var uv = raw.uvRect;
+        float u = uv.x + nx * uv.width;
+        float v = uv.y + ny * uv.height;
+
+        int cx = Mathf.RoundToInt(u * texW);
+        int cy = Mathf.RoundToInt(v * texH);
+        if (cx < 0 || cx >= texW || cy < 0 || cy >= texH) return;
+
+        queue.Enqueue(new BrushOp { x = cx, y = cy, r = brushRadius });
+    }
+
+    void BuildMasks(Color32[] src, float thr01)
+    {
+        int n = src.Length;
+        eligible = new int[n];
+        paintedFlags = new int[n];
+        totalEligible = 0;
+        byte thr = (byte)Mathf.Clamp(Mathf.RoundToInt(thr01 * 255f), 0, 255);
+
+        for (int i = 0; i < n; i++)
+        {
+            if (src[i].a >= thr)
+            {
+                eligible[i] = 1;
+                totalEligible++;
+            }
+        }
+        erasedCount = 0;
     }
 
     Texture2D DuplicateReadable(Texture2D src)
@@ -222,13 +230,9 @@ public class EraseZone : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoin
         {
             var px = src.GetPixels32();
             var copy = new Texture2D(src.width, src.height, TextureFormat.RGBA32, false, false);
-            copy.SetPixels32(px);
-            copy.Apply(false, false);
+            copy.SetPixels32(px); copy.Apply(false, false);
             return copy;
         }
-        catch
-        {
-            return null; // not readable
-        }
+        catch { return null; }
     }
 }

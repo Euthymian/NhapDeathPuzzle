@@ -1,0 +1,167 @@
+
+nv nam lv7.png
+size: 2015,708
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Layer 5
+  rotate: false
+  xy: 1749, 299
+  size: 167, 80
+  orig: 167, 80
+  offset: 0, 0
+  index: -1
+canhtay1
+  rotate: false
+  xy: 489, 37
+  size: 383, 204
+  orig: 384, 205
+  offset: 0, 0
+  index: -1
+canhtay2
+  rotate: false
+  xy: 385, 36
+  size: 102, 205
+  orig: 102, 205
+  offset: 0, 0
+  index: -1
+chan1
+  rotate: false
+  xy: 778, 266
+  size: 147, 440
+  orig: 147, 440
+  offset: 0, 0
+  index: -1
+chan2
+  rotate: false
+  xy: 927, 266
+  size: 147, 440
+  orig: 147, 440
+  offset: 0, 0
+  index: -1
+daugoi1
+  rotate: true
+  xy: 1899, 122
+  size: 122, 114
+  orig: 122, 114
+  offset: 0, 0
+  index: -1
+daugoi2
+  rotate: false
+  xy: 1749, 6
+  size: 122, 114
+  orig: 122, 114
+  offset: 0, 0
+  index: -1
+eye1
+  rotate: true
+  xy: 2, 2
+  size: 239, 171
+  orig: 239, 171
+  offset: 0, 0
+  index: -1
+eye2
+  rotate: true
+  xy: 175, 2
+  size: 239, 103
+  orig: 239, 103
+  offset: 0, 0
+  index: -1
+eye3
+  rotate: true
+  xy: 280, 2
+  size: 239, 103
+  orig: 239, 103
+  offset: 0, 0
+  index: -1
+face
+  rotate: true
+  xy: 1076, 299
+  size: 407, 351
+  orig: 407, 351
+  offset: 0, 0
+  index: -1
+hair1
+  rotate: false
+  xy: 1068, 21
+  size: 404, 243
+  orig: 405, 243
+  offset: 0, 0
+  index: -1
+hair2
+  rotate: true
+  xy: 1429, 339
+  size: 367, 268
+  orig: 367, 269
+  offset: 0, 0
+  index: -1
+iphone
+  rotate: true
+  xy: 1749, 188
+  size: 109, 148
+  orig: 109, 148
+  offset: 0, 0
+  index: -1
+mouth1
+  rotate: false
+  xy: 1749, 126
+  size: 122, 60
+  orig: 122, 60
+  offset: 0, 0
+  index: -1
+mouth2
+  rotate: true
+  xy: 1918, 246
+  size: 133, 64
+  orig: 133, 64
+  offset: 0, 0
+  index: -1
+posetay1
+  rotate: false
+  xy: 874, 4
+  size: 95, 260
+  orig: 95, 260
+  offset: 0, 0
+  index: -1
+posetay2
+  rotate: false
+  xy: 971, 4
+  size: 95, 260
+  orig: 95, 260
+  offset: 0, 0
+  index: -1
+quan
+  rotate: false
+  xy: 1699, 573
+  size: 312, 133
+  orig: 312, 133
+  offset: 0, 0
+  index: -1
+tay1
+  rotate: true
+  xy: 1850, 381
+  size: 190, 148
+  orig: 387, 149
+  offset: 0, 0
+  index: -1
+tay2
+  rotate: true
+  xy: 1699, 381
+  size: 190, 149
+  orig: 190, 149
+  offset: 0, 0
+  index: -1
+than
+  rotate: false
+  xy: 1474, 5
+  size: 273, 332
+  orig: 273, 332
+  offset: 0, 0
+  index: -1
+toilet-01
+  rotate: true
+  xy: 2, 243
+  size: 463, 774
+  orig: 463, 774
+  offset: 0, 0
+  index: -1

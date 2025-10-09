@@ -135,7 +135,7 @@ public class LevelManager : MonoBehaviour
             if (string.Equals(sr.chainId, requiredChainId, StringComparison.Ordinal))
             {
                 if (ps) ps.Play();
-                OnLevelComplete?.Invoke(this, EventArgs.Empty);
+                StartCoroutine(LevelCompleteCoroutine());
             }
             // NEW: if last anim but NOT the required chain → broadcast reset event
             else
@@ -144,6 +144,12 @@ public class LevelManager : MonoBehaviour
                 OnWrongChainComplete?.Invoke(this, EventArgs.Empty);
             }
         }
+    }
+
+    IEnumerator LevelCompleteCoroutine()
+    {
+        yield return new WaitForSeconds(1f);
+        OnLevelComplete?.Invoke(this, EventArgs.Empty);
     }
 
     private StepRef? FindStep(string visualId, string animName)

@@ -27,14 +27,14 @@ RectTransform:
   m_GameObject: {fileID: 2226891548210678152}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 2.24, y: 2.24, z: 2.24}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8689986017935984411}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 333, y: 0}
+  m_AnchoredPosition: {x: 208, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6719834891610296978
@@ -112,7 +112,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -57.773567, y: 872}
+  m_AnchoredPosition: {x: -57.773567, y: 598}
   m_SizeDelta: {x: 181.0554, y: 389.72998}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5455254528768433143
@@ -206,7 +206,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -229, y: 171}
+  m_AnchoredPosition: {x: -248, y: 193}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5824777209748489740
@@ -265,6 +265,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: do
   animationToTrigger: action1
+  followSpeedPxPerSec: 2000
+  useUnscaledTime: 1
 --- !u!222 &7577450960863538421
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -381,7 +383,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 315, y: -522}
+  m_AnchoredPosition: {x: 258, y: 195}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7233115548609495809
@@ -440,6 +442,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: xanh
   animationToTrigger: action2
+  followSpeedPxPerSec: 2000
+  useUnscaledTime: 1
 --- !u!222 &8935092255299893603
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -633,7 +637,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8718297347468058719, guid: f27f9b8ce1b5e754888e67a571621c2b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -960
+      value: -1029
       objectReference: {fileID: 0}
     - target: {fileID: 8718297347468058719, guid: f27f9b8ce1b5e754888e67a571621c2b, type: 3}
       propertyPath: m_LocalPosition.z

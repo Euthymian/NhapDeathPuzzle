@@ -116,13 +116,16 @@ public class GameManager : MonoBehaviour
         var origRot = levelCanvas.transform.rotation;
         var origScale = levelCanvas.transform.localScale;
 
+        settingButton.gameObject.SetActive(false);
+
         Canvas.ForceUpdateCanvases();
 
         // --- Compute bounds of the entire level (in canvas local space) ---
         var localBounds = RectTransformUtility.CalculateRelativeRectTransformBounds(levelCanvas.transform, sceneRoot);
         var pad = Mathf.Max(0f, paddingPercent);
-        var paddedSize = localBounds.size * (1f + pad * 2f);
+        var paddedSize = localBounds.extents * (1f + pad * 2f);
         var paddedCenter = localBounds.center;
+
 
         // --- Switch to WORLD SPACE temporarily ---
         levelCanvas.renderMode = RenderMode.WorldSpace;
@@ -132,9 +135,10 @@ public class GameManager : MonoBehaviour
         Canvas.ForceUpdateCanvases();
 
         // Convert canvas-local (pixels) to world using our scale
-        var worldCenter = levelCanvas.transform.TransformPoint(new Vector3(paddedCenter.x, paddedCenter.y, 0f) / pixelsPerWorldUnit);
+        var worldCenter = canvas.transform.TransformPoint(new Vector3(paddedCenter.x, paddedCenter.y, 0f) / pixelsPerWorldUnit);
         var worldHalfW = (paddedSize.x * 0.5f) / pixelsPerWorldUnit;
         var worldHalfH = (paddedSize.y * 0.5f) / pixelsPerWorldUnit;
+
 
         // --- Create TEMP ortho camera + RT (no scene changes kept) ---
         var camGO = new GameObject("~TempUICaptureCam");
@@ -178,6 +182,8 @@ public class GameManager : MonoBehaviour
 
         winPanel.SetActive(true);
         nextButton.gameObject.SetActive(true);
+
+        settingButton.gameObject.SetActive(true);
 
         finishedImage.GetComponent<Animator>().Play("CaptureDeath");
     }

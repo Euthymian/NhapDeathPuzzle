@@ -178,6 +178,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: tui
   animationToTrigger: action1
+  followSpeedPxPerSec: 2000
+  useUnscaledTime: 1
 --- !u!1 &1500666727435128146
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +302,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.81, y: 1.81, z: 1.81}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4751209799223317691}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -510,6 +512,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: chuoi
   animationToTrigger: action2
+  followSpeedPxPerSec: 2000
+  useUnscaledTime: 1
 --- !u!1 &6550123258574338333
 GameObject:
   m_ObjectHideFlags: 0

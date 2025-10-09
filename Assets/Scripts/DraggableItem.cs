@@ -9,7 +9,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public string animationToTrigger;
 
     [Header("Follow")]
-    [SerializeField, Min(10f)] float followSpeedPxPerSec = 2000f; // tune 1500–3000 for feel
+    [SerializeField, Min(10f)] float followSpeedPxPerSec = 2000; // tune 1500–3000 for feel
     [SerializeField] bool useUnscaledTime = true;
 
     RectTransform rectTransform, parentRect;
@@ -37,8 +37,9 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         float dt = useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
         float step = followSpeedPxPerSec * Mathf.Max(0f, dt);
 
-        rectTransform.anchoredPosition =
-            Vector2.MoveTowards(rectTransform.anchoredPosition, targetAnchored, step);
+        rectTransform.anchoredPosition = targetAnchored;
+        //rectTransform.anchoredPosition = Vector2.Lerp(rectTransform.anchoredPosition, targetAnchored, Mathf.Clamp01(step / Vector2.Distance(rectTransform.anchoredPosition, targetAnchored)));
+        //Vector2.MoveTowards(rectTransform.anchoredPosition, targetAnchored, step);
     }
 
     public void OnBeginDrag(PointerEventData e)

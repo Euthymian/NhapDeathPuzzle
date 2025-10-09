@@ -24,6 +24,8 @@ public class SettingPanelUI : MonoBehaviour
 
         if(musicToggle.isOn) SoundManager.Instance.PlayMusic();
         else SoundManager.Instance.StopMusic();
+
+        gameObject.SetActive(false);
     }
 
     private void ToggleMusic(bool isOn)
