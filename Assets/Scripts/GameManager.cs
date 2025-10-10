@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject winPanel;
     [SerializeField] private Button nextButton;
-
+    [SerializeField] private Animator winFrameAnim;
     [SerializeField] private RawImage finishedImage;
 
     [Header("UI Level Capture (entire scene is UI)")]
@@ -99,8 +99,10 @@ public class GameManager : MonoBehaviour
 
     private void HandleLevelComplete(object _, System.EventArgs __)
     {
-        StartCoroutine(CaptureFullUI_Co());
-
+        //StartCoroutine(CaptureFullUI_Co());
+        winPanel.SetActive(true);
+        nextButton.gameObject.SetActive(true);
+        winFrameAnim.Play("FrameIn");
     }
 
     private IEnumerator CaptureFullUI_Co()

@@ -106,6 +106,10 @@ public class EraseZone : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoin
             EnqueueBrushAtLocal(Vector2.Lerp(lastLocal, lp, i / (float)steps));
 
         lastLocal = lp;
+
+        float progress = totalEligible > 0 ? (float)Volatile.Read(ref erasedCount) / totalEligible : 0f;
+        if (progress >= triggerPercent && targetVisual)
+            targetVisual.PlayAnim(animationToTrigger, false);
     }
 
     public void OnPointerUp(PointerEventData e)

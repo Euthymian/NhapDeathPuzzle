@@ -37,6 +37,7 @@ RectTransform:
   - {fileID: 2423461783812191316}
   - {fileID: 2503557600795860091}
   - {fileID: 7532692701821468514}
+  - {fileID: 7685035962651120977}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -57,6 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionChainListSO: {fileID: 11400000, guid: 7da4eaef68ee04540a6fdbdf359bb913, type: 2}
+  levelCompletePosition: {fileID: 7685035962651120977}
   visualList:
   - {fileID: 8876560776105926052}
   itemsToReset: []
@@ -138,6 +140,41 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2044383359375100789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7685035962651120977}
+  m_Layer: 5
+  m_Name: LevelCompletePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7685035962651120977
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044383359375100789}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5098403602133170692}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -67.99998, y: 815.0001}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2734109444661845192
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,7 +594,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetVisual: {fileID: 8876560776105926052}
   animationToTrigger: action1
-  triggerPercent: 0.872
+  triggerPercent: 0.646
   brushRadius: 80
   alphaThreshold: 0.5
 --- !u!1 &6900609345892176579

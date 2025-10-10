@@ -166,6 +166,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: coc
   animationToTrigger: action1
+  followSpeedPxPerSec: 2000
+  useUnscaledTime: 1
 --- !u!225 &2827958808975086981
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -376,6 +378,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: keo
   animationToTrigger: day
+  followSpeedPxPerSec: 2000
+  useUnscaledTime: 1
 --- !u!225 &3368032159546530165
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -515,6 +519,7 @@ RectTransform:
   - {fileID: 4764164974922286496}
   - {fileID: 6826491111090028176}
   - {fileID: 97842060465794298}
+  - {fileID: 7648012450756430559}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -535,6 +540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionChainListSO: {fileID: 11400000, guid: ccaa2cd8540024148bd68c1586028874, type: 2}
+  levelCompletePosition: {fileID: 7648012450756430559}
   visualList:
   - {fileID: 5557619723091515398}
   - {fileID: 3415699047618146087}
@@ -742,3 +748,38 @@ MonoBehaviour:
   acceptedItemNames:
   - coc
   visual: {fileID: 5557619723091515398}
+--- !u!1 &9212804545730460391
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7648012450756430559}
+  m_Layer: 5
+  m_Name: LevelCompletePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7648012450756430559
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9212804545730460391}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 194365945672031475}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -63.99999, y: 654.9999}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}

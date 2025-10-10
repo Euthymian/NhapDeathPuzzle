@@ -13,6 +13,9 @@ public class LevelManager : MonoBehaviour
     [Header("Config (SO)")]
     [SerializeField] private ActionChainListSO actionChainListSO;
 
+    [Header("Level Complete Position")]
+    [SerializeField] private RectTransform levelCompletePosition;
+
     [Header("Scene refs")]
     [SerializeField] private List<Visual> visualList = new();
     [SerializeField] private List<DraggableItem> itemsToReset = new(); // optional
@@ -95,6 +98,10 @@ public class LevelManager : MonoBehaviour
             // NEW
             OnWrongChainComplete -= v.HandleWrongChainReset;
         }
+        if (ps)         {
+            ps.Stop();
+            Destroy(gameObject);
+        }
     }
 
     // ---- MOVES: run at BEGIN of trigger animation ----
@@ -148,8 +155,27 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator LevelCompleteCoroutine()
     {
-        yield return new WaitForSeconds(1f);
         OnLevelComplete?.Invoke(this, EventArgs.Empty);
+        yield return MoveToCompletePosition();
+    }
+
+    IEnumerator MoveToCompletePosition()
+    {
+        if (levelCompletePosition == null) yield break;
+        levelCompletePosition.SetParent(transform.parent, true);
+        Vector2 from = GetComponent<RectTransform>().anchoredPosition;
+        Vector2 to = levelCompletePosition.anchoredPosition;
+        float duration = 0.5f;
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.unscaledDeltaTime;
+            float u = Mathf.Clamp01(t / duration);
+            GetComponent<RectTransform>().anchoredPosition = Vector2.LerpUnclamped(from, to, u);
+            yield return null;
+        }
+        GetComponent<RectTransform>().anchoredPosition = to;
+        levelCompletePosition.SetParent(transform, true);
     }
 
     private StepRef? FindStep(string visualId, string animName)
